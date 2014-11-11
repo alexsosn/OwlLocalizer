@@ -8,11 +8,11 @@ Application allows you to search for strings that may need localisation in iOS p
 ```sh
  python loc_finder.py 
 
- -i -- ifile \<inputfile\> 
+ -i -- ifile <inputfile> 
 
- -o --ofile \<outputfile\> 
+ -o --ofile <outputfile> 
 
- -s --localizable_strings \[Generate Localizable.strings or just create list of strings?\]
+ -s --localizable_strings [Generate Localizable.strings or just create list of strings?]
 
- -N --use_nltk \[Should I use natural language processing to extract all lines which may require localization? (Much slower)\]
+ -N --use_nltk [Should I use natural language processing to extract all lines which may require localization? (Much slower)]
 ```
