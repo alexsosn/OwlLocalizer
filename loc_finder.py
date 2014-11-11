@@ -5,6 +5,7 @@ import sys, getopt, os, re
 import nltk, webbrowser
 from nltk.corpus import wordnet as wn
 from config import Config
+import traceback
 
 global_word_pull = set()
 
@@ -108,27 +109,28 @@ def search_for_all_strings(line, file_format):
 
     for regexp in Config.strings_patterns[file_format]:
         for match in re.finditer(regexp, line):
-            if match :
-                group = match.group(1)
-                if len(group) > 0:
-                    try:
-                        if not contains_forbidden_patterns(group):
-                            tokens = nltk.word_tokenize(group)
-                            if len(tokens) > 0:
-                                for word in tokens:
-                                    morf = wn.morphy(word)
-                                    if morf and len(str(morf))>1:
-                                        if group not in global_word_pull:
-                                            result.append(group)
-                                            global_word_pull.add(group)
-                                        break
-                    except:
-                        url = os.path.join(os.path.split(os.path.realpath(__file__))[0] + "/nltk_info.html")
-                        print("See here for installation instructions:\n" + url)
-                        webbrowser.open_new(url)
+            if not match:
+                continue
+            group = match.group(1)
+            if len(group) > 0 and not contains_forbidden_patterns(group):
+                try:
+                    tokens = nltk.word_tokenize(group)
+                    if len(tokens) > 0:
+                        for word in tokens:
+                            morf = wn.morphy(word)
+                            if morf and len(str(morf))>1 and group not in global_word_pull:
+                                result.append(group)
+                                global_word_pull.add(group)
+                                break
+                except:
+                    print ("Unexpected error:{0}".format(sys.exc_info()))
+                    traceback.print_tb(sys.exc_info()[2])
+                    url = os.path.join(os.path.split(os.path.realpath(__file__))[0] + "/nltk_info.html")
+                    print("See here for installation instructions:\n" + url)
+                    webbrowser.open_new(url)
 
-                        nltk.download()
-                        sys.exit(2)
+                    nltk.download()
+                    sys.exit(2)
 
     return result
 
