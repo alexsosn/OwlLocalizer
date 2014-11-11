@@ -5,13 +5,15 @@ class Config:
          'Loc *\( *@\"(.*?)\" *\)',
          'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
          'setTitle: *@\"(.*?)\"',
-         '.title *= *@\"(.*?)\"'
+         '.title *= *@\"(.*?)\"',
+         'alertMessage:@\"(.*?)\"'
       ],
       '.mm':[  
          'Loc *\( *@\"(.*?)\" *\)',
          'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
          'setTitle: *@\"(.*?)\"',
-         '.title *= *@\"(.*?)\"'
+         '.title *= *@\"(.*?)\"',
+         'alertMessage:@\"(.*?)\"'
       ],
       '.xib':[  
          ' title=\"(.*?)\".*/>'
@@ -22,9 +24,7 @@ class Config:
       '.strings':[  
          '\".*?\" *= *\"(.*?)\";'
       ],
-      '.plist':[  
-         '<string>(.*?)</string>'
-      ]
+      '.plist':[]
    }
     strings_patterns = {
       '.m':[  
@@ -55,8 +55,46 @@ class Config:
       '>=',
       '<=',
       'yyyy',
-      'ZZZ'
+      'ZZZ',
+      '^[0-9]+$',
+      '\[view\]',
+      '\(null\)',
+      'V:\[',
+      'HH:mm',
+      'dd/MM',
+      '%@'
    ]
+    excluded_lines = [
+        'NSAssert\(.*?\)',
+        'NSLog\(.*?\)',
+        'DDLogError',
+        'DDLogVerbose',
+        'it\(@"',
+        'ForKey:@"',
+        'DLog\(@',
+        'NSException'
+    ]
     excluded_folders = ['Pods', '.git', 'Build']
     allowed_formats = ['.m', '.mm', '.storyboard', '.xib', '.strings', '.plist']
-    
+
+
+'''
+Currently not rejected with NLTK:
+dd/MM HH:mm
+dd/MM hh:mm a
+NSAssert(self.model != nil, @"Model not set");
+DDLogError(@"failure error: %@", error);
+DDLogVerbose(@"error object: %@", object);
+#import <XCTest/XCTest.h>
+
+...Spec.m
+describe(@"Math", ^{
+     it(@"is pretty cool", ^{
+numberForKey:@"id"
+
+
+Not included with heuristics:
+[self alertMessage:@"An email will be sent to you shortly." withTitle:@"Reset password confirmation"];
+[NSPredicate predicateWithFormat:@"identifier == %@"
+
+'''

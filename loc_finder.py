@@ -6,31 +6,38 @@ import nltk, webbrowser
 from nltk.corpus import wordnet as wn
 from config import Config
 
-def main(argv):
-   inputfile = ''
-   outputfile = ''
-   generate_localizable_strings = False
-   func_to_search = search_for_loc
-   try:
-      opts, args = getopt.getopt(argv,"hi:o:sN",["ifile=","ofile=","localizable_strings", "use_nltk"])
-   except getopt.GetoptError:
-      print (hlp_str())
-      sys.exit(2)
-   for opt, arg in opts:
-      if opt == '-h':
-         print (hlp_str())
-         sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
-      elif opt in ("-o", "--ofile"):
-         outputfile = arg
-      elif opt in ("-s", "--localizable_strings"):
-        generate_localizable_strings = True
-      elif opt in ("-N", "--use_nltk"):
-        func_to_search = search_for_all_strings
+global_word_pull = set()
 
-   result = recursively_check (inputfile, func_to_search)
-   output(outputfile, result, generate_localizable_strings)
+def main(argv):
+    inputfile = ''
+    outputfile = ''
+    generate_localizable_strings = False
+    func_to_search = [search_for_loc]
+    try:
+        opts, args = getopt.getopt(argv,"hi:o:sN",["ifile=","ofile=","localizable_strings", "use_nltk"])
+    except getopt.GetoptError:
+        print (hlp_str())
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print (hlp_str())
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            inputfile = arg
+        elif opt in ("-o", "--ofile"):
+            outputfile = arg
+        elif opt in ("-s", "--localizable_strings"):
+            generate_localizable_strings = True
+        elif opt in ("-N", "--use_nltk"):
+            func_to_search.append(search_for_all_strings)
+
+    out = []
+    for function in func_to_search:
+        out.append({'=============================================================================================':
+                        "..."})
+        out.append(recursively_check (inputfile, function))
+    for item in out:
+        output(outputfile, item, generate_localizable_strings)
 
 def hlp_str():
     '''Help string'''
@@ -63,7 +70,7 @@ def recursively_check(project_folder, func_to_search):
 def output(output_file, result, generate):
     '''Generate output file'''
     if generate:
-        with open(output_file, 'w') as f:
+        with open(output_file, 'a') as f:
             for key, value in result.items():
                 f.write('"{0}" = "{1}";\n'.format(key, key))
 
@@ -75,7 +82,7 @@ def output(output_file, result, generate):
                     rev_index[item] = []
                 rev_index[item].append(key)
         already_remembered = set()
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with open(output_file, 'a', encoding='utf-8') as f:
             for key, value in rev_index.items():
                 f.write('\n======= %s =======\n' % str(key))
                 for item in value:
@@ -84,7 +91,7 @@ def output(output_file, result, generate):
                         already_remembered.add(item)
 
 
-def contains_forbidden_patterns(string):#V:|-[contentView]-[tableView]-0-[dateView(45)]|
+def contains_forbidden_patterns(string):
     for regexp in Config.excluded_patterns:
         for match in re.finditer(regexp, string):
             if match :
@@ -94,6 +101,10 @@ def contains_forbidden_patterns(string):#V:|-[contentView]-[tableView]-0-[dateVi
 def search_for_all_strings(line, file_format):
     '''Search for all strings with NLTK'''
     result = []
+    for regexp in Config.excluded_lines:
+        for match in re.finditer(regexp, line):
+            if match:
+                return([])
 
     for regexp in Config.strings_patterns[file_format]:
         for match in re.finditer(regexp, line):
@@ -107,7 +118,9 @@ def search_for_all_strings(line, file_format):
                                 for word in tokens:
                                     morf = wn.morphy(word)
                                     if morf and len(str(morf))>1:
-                                        result.append(group)
+                                        if group not in global_word_pull:
+                                            result.append(group)
+                                            global_word_pull.add(group)
                                         break
                     except:
                         url = os.path.join(os.path.split(os.path.realpath(__file__))[0] + "/nltk_info.html")
@@ -127,10 +140,11 @@ def search_for_loc(line, file_format):
             if match :
                 group = match.group(1)
                 if len(group) > 0:
-                    result.append(group)
-
+                    if group not in global_word_pull:
+                        result.append(group)
+                        global_word_pull.add(group)
 
     return result
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    main(sys.argv[1:])
