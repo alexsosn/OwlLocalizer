@@ -17,6 +17,8 @@ Application allows you to search for strings that may need localisation in iOS p
  -N --use_nltk [Should I use natural language processing to extract all lines which may require localization? (Slower)]
 ```
 
+To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
+
 ## Version
 0.0.1
 
