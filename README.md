@@ -20,6 +20,11 @@ Application allows you to search for strings that may need localisation in iOS p
 ## Version
 0.0.1
 
+## Requirements
+
+* Python 3.4
+* NLTK
+
 ## Todo
 
 * Add handling for localizedStringForKey:
