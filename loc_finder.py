@@ -1,11 +1,19 @@
 #!/usr/bin/python
 
 __author__ = 'asos'
-import sys, getopt, os, re
-import nltk, webbrowser
-from nltk.corpus import wordnet as wn
-from config import Config
+import sys
+import getopt
+import os
+import re
+import webbrowser
 import traceback
+
+import nltk
+from nltk.corpus import wordnet as wn
+import pandas as pd
+
+from config import Config
+
 
 global_word_pull = set()
 
@@ -14,8 +22,10 @@ def main(argv):
     outputfile = ''
     generate_localizable_strings = False
     func_to_search = [search_for_loc]
+    output_format = 'txt'
+
     try:
-        opts, args = getopt.getopt(argv,"hi:o:sN",["ifile=","ofile=","localizable_strings", "use_nltk"])
+        opts, args = getopt.getopt(argv, "hi:o:sNc", ["ifile=", "ofile=", "localizable_strings", "use_nltk", "csv"])
     except getopt.GetoptError:
         print (hlp_str())
         sys.exit(2)
@@ -31,40 +41,57 @@ def main(argv):
             generate_localizable_strings = True
         elif opt in ("-N", "--use_nltk"):
             func_to_search.append(search_for_all_strings)
+        elif opt in ("-c", "--csv"):
+            output_format = 'csv'
 
-    out = []
-    for function in func_to_search:
-        out.append({'=============================================================================================':
-                        "..."})
-        out.append(recursively_check (inputfile, function))
-    for item in out:
-        output(outputfile, item, generate_localizable_strings)
+    if (output_format == 'csv'):
+        csv_result_dict = recursively_check(inputfile, search_for_all_strings, output_format)
+        result_df = pd.DataFrame.from_dict(csv_result_dict)
+        result_df.to_csv(outputfile)
+
+    elif (output_format == 'txt'):
+        out = []
+        for function in func_to_search:
+            out.append({'=============================================================================================':
+                            "..."})
+            out.append(recursively_check(inputfile, function))
+        for item in out:
+            output(outputfile, item, generate_localizable_strings)
 
 def hlp_str():
     '''Help string'''
     return 'USAGE: \nloc_finder.py \n-i <inputfile> \n-o <outputfile> \n-s [generate Localizable.strings?] \
     \n-N [should I use natural language processing to extract all lines which may require localization? (Much slower)]'
 
-def recursively_check(project_folder, func_to_search):
+
+def recursively_check(project_folder, func_to_search, output_format="txt"):
     '''Recursively scan through folders structure'''
     result = {}
 
-    for root, subdirs, files in os.walk(project_folder, topdown=True):
-        subdirs[:] = [d for d in subdirs if d not in set(Config.excluded_folders)]
+    if (output_format == 'csv'):
+        result = {"Where": [], "What": [], "Description": []}
 
-        for filename in files:
-            if "-Info.plist" in filename: continue
+        for root, subdirs, files in os.walk(project_folder, topdown=True):
+            subdirs[:] = [d for d in subdirs if d not in set(Config.excluded_folders)]
 
-            file_path = os.path.join(root, filename)
+            for filename in files:
+                if "-Info.plist" in filename: continue
 
-            file_name_no_ext, file_ext = os.path.splitext(filename)
-            if file_ext in Config.allowed_formats:
-                with open(file_path, 'rb') as f:
-                    for line in f:
-                        for match in func_to_search(str(line), file_ext):
-                            if not match in result:
-                                result[match] = []
-                            result[match].append(filename)
+                file_path = os.path.join(root, filename)
+
+                file_name_no_ext, file_ext = os.path.splitext(filename)
+                if file_ext in Config.allowed_formats:
+                    with open(file_path, 'rb') as f:
+                        for line in f:
+                            for match in func_to_search(str(line), file_ext):
+                                if (output_format == 'csv'):
+                                    result["Where"].append(filename)
+                                    result["What"].append(match)
+                                    result["Description"].append(file_path)
+                                elif (output_format == 'txt'):
+                                    if not match in result:
+                                        result[match] = []
+                                    result[match].append(filename)
 
     return result
 

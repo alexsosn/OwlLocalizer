@@ -18,22 +18,24 @@ Find all strings in iOS project, which requires localization regardless of wheth
  -s --localizable_strings [Generate Localizable.strings or just create list of strings?]
 
  -N --use_nltk [Should I use natural language processing to extract all lines which may require localization? (Slower)]
+
+ -c --csv set output format to csv. Only NLTK parsing will be used with this option. Output format: [Description,What,Where]. Duplicates will not be removed.
 ```
 
 To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
 
 ## Version
-0.0.1
+0.0.2
 
 ## Requirements
 
 * Python 3.4
 * NLTK
+* Pandas 0.16.0
 
 ## Todo
 
 * Add handling for localizedStringForKey:
-* Context awareness
-* Tests
-* Multi-line strings
-* ...
+* Context awareness / AST awareness
+* Multi-line strings.
+* Do not include unit tests in search.
