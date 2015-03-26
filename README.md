@@ -1,28 +1,33 @@
+
 OwlLocalizer
 ============
 
 Application allows you to search for strings that may need localisation in iOS project. Uses natural language processing and heuristics to exclude urls, dates, autolayouts, predicates etc. Have several modes of search and allows to find strings in code sources, plists and UI files (.xib, .storyboards).
 
 ## Ultimate goal of project
-Find all strings in iOS project, which requires localization regardless of whether they are marked using NSLocalizedString(...) or not.
+> Find all strings in iOS project, which requires localization regardless of whether they are marked using NSLocalizedString(...) or not.
 
 ## Usage
 
-```sh
- python loc_finder.py 
 
- -i -- ifile <inputfile> 
+ >python loc_finder.py 
 
- -o --ofile <outputfile> 
+> -i -- ifile <inputfile> 
 
- -s --localizable_strings [Generate Localizable.strings or just create list of strings?]
+> -o --ofile <outputfile> 
 
- -N --use_nltk [Should I use natural language processing to extract all lines which may require localization? (Slower)]
+> -s --localizable_strings [Generate Localizable.strings or just create list of strings?]
 
- -c --csv set output format to csv. Only NLTK parsing will be used with this option. Output format: [Description,What,Where]. Duplicates will not be removed.
-```
+> -N --use_nltk [Should I use natural language processing to extract all lines which may require localization? (Slower)]
 
-To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
+> -c --csv set output format to csv. Only NLTK parsing will be used with this option. Output format: [Description,What,Where]. Duplicates will not be removed.
+
+> **Examples:** 
+>> python loc_finder.py -i my-ios-project-folder -o local.csv -Nc
+>
+>> python loc_finder.py -i my-ios-project-folder -o localizable.strings -s
+
+>To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
 
 ## Version
 0.0.2
