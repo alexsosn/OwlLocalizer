@@ -15,7 +15,7 @@ import pandas as pd
 from config import Config
 
 
-global_word_pull = None
+global_word_pull = set()
 output_format = "txt"
 
 def main(argv):
@@ -23,7 +23,6 @@ def main(argv):
     outputfile = ''
     generate_localizable_strings = False
     func_to_search = [search_for_loc]
-    global global_word_pull
     global output_format
 
     try:
@@ -47,13 +46,11 @@ def main(argv):
             output_format = "csv"
 
     if (output_format == "csv"):
-        global_word_pull = []
-        csv_result_dict = recursively_check(inputfile, search_for_all_strings, output_format)
+        csv_result_dict = recursively_check(inputfile, search_for_loc, output_format)
         result_df = pd.DataFrame.from_dict(csv_result_dict)
         result_df.to_csv(outputfile)
 
     elif (output_format == "txt"):
-        global_word_pull = set()
         out = []
         for function in func_to_search:
             out.append({'=============================================================================================':
@@ -152,7 +149,7 @@ def search_for_all_strings(line, file_format):
                             if morf and len(str(morf)) > 1:
                                 if (output_format == "csv") | (group not in global_word_pull):
                                     result.append(group)
-                                    global_word_pull.append(group)
+                                    global_word_pull.add(group)
                                 break
                 except:
                     print ("Unexpected error:{0}".format(sys.exc_info()))
