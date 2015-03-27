@@ -15,14 +15,16 @@ import pandas as pd
 from config import Config
 
 
-global_word_pull = set()
+global_word_pull = None
+output_format = "txt"
 
 def main(argv):
     inputfile = ''
     outputfile = ''
     generate_localizable_strings = False
     func_to_search = [search_for_loc]
-    output_format = 'txt'
+    global global_word_pull
+    global output_format
 
     try:
         opts, args = getopt.getopt(argv, "hi:o:sNc", ["ifile=", "ofile=", "localizable_strings", "use_nltk", "csv"])
@@ -42,14 +44,16 @@ def main(argv):
         elif opt in ("-N", "--use_nltk"):
             func_to_search.append(search_for_all_strings)
         elif opt in ("-c", "--csv"):
-            output_format = 'csv'
+            output_format = "csv"
 
-    if (output_format == 'csv'):
+    if (output_format == "csv"):
+        global_word_pull = []
         csv_result_dict = recursively_check(inputfile, search_for_all_strings, output_format)
         result_df = pd.DataFrame.from_dict(csv_result_dict)
         result_df.to_csv(outputfile)
 
-    elif (output_format == 'txt'):
+    elif (output_format == "txt"):
+        global_word_pull = set()
         out = []
         for function in func_to_search:
             out.append({'=============================================================================================':
@@ -71,27 +75,27 @@ def recursively_check(project_folder, func_to_search, output_format="txt"):
     if (output_format == 'csv'):
         result = {"Where": [], "What": [], "Description": []}
 
-        for root, subdirs, files in os.walk(project_folder, topdown=True):
-            subdirs[:] = [d for d in subdirs if d not in set(Config.excluded_folders)]
+    for root, subdirs, files in os.walk(project_folder, topdown=True):
+        subdirs[:] = [d for d in subdirs if d not in set(Config.excluded_folders)]
 
-            for filename in files:
-                if "-Info.plist" in filename: continue
+        for filename in files:
+            if "-Info.plist" in filename: continue
 
-                file_path = os.path.join(root, filename)
+            file_path = os.path.join(root, filename)
 
-                file_name_no_ext, file_ext = os.path.splitext(filename)
-                if file_ext in Config.allowed_formats:
-                    with open(file_path, 'rb') as f:
-                        for line in f:
-                            for match in func_to_search(str(line), file_ext):
-                                if (output_format == 'csv'):
-                                    result["Where"].append(filename)
-                                    result["What"].append(match)
-                                    result["Description"].append(file_path)
-                                elif (output_format == 'txt'):
-                                    if not match in result:
-                                        result[match] = []
-                                    result[match].append(filename)
+            file_name_no_ext, file_ext = os.path.splitext(filename)
+            if file_ext in Config.allowed_formats:
+                with open(file_path, 'rb') as f:
+                    for line in f:
+                        for match in func_to_search(str(line), file_ext):
+                            if (output_format == 'csv'):
+                                result["Where"].append(filename)
+                                result["What"].append(match)
+                                result["Description"].append(file_path)
+                            elif (output_format == 'txt'):
+                                if not match in result:
+                                    result[match] = []
+                                result[match].append(filename)
 
     return result
 
@@ -145,9 +149,10 @@ def search_for_all_strings(line, file_format):
                     if len(tokens) > 0:
                         for word in tokens:
                             morf = wn.morphy(word)
-                            if morf and len(str(morf))>1 and group not in global_word_pull:
-                                result.append(group)
-                                global_word_pull.add(group)
+                            if morf and len(str(morf)) > 1:
+                                if (output_format == "csv") | (group not in global_word_pull):
+                                    result.append(group)
+                                    global_word_pull.append(group)
                                 break
                 except:
                     print ("Unexpected error:{0}".format(sys.exc_info()))
@@ -169,7 +174,7 @@ def search_for_loc(line, file_format):
             if match :
                 group = match.group(1)
                 if len(group) > 0:
-                    if group not in global_word_pull:
+                    if (output_format == "csv") | (group not in global_word_pull):
                         result.append(group)
                         global_word_pull.add(group)
 
