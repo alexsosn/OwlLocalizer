@@ -35,7 +35,7 @@ If you got an error
 ```bash
 Unexpected error:(<class 'LookupError'>, LookupError("\n**********************************************************************\n  Resource 'tokenizers/punkt/PY3/english.pickle' not found.\n  Please use the NLTK Downloader to obtain the resource:  >>>\n  nltk.download()\n  Searched in:\n    - '/Users/gigaset/nltk_data'\n    - '/usr/share/nltk_data'\n    - '/usr/local/share/nltk_data'\n    - '/usr/lib/nltk_data'\n    - '/usr/local/lib/nltk_data'\n    - ''\n**********************************************************************",), <traceback object at 0x1084fc408>)
 ```
-you probably don't have some NLTK packages installed. Script will try to start NLTK package downloader. Do following:
+you probably don't have some NLTK packages installed. Script will try to start **NLTK package downloader**. Do following:
 * Go to 'Corpora' tab and select 'wordnet' from under the 'Identifier' column (WordNet).
 * Click Download and it will install the necessary files.
 * Go to the 'Models' tab and select 'punkt' from under the 'Identifier' column.
@@ -53,7 +53,9 @@ you probably don't have some NLTK packages installed. Script will try to start N
 
 ## Todo
 
-* Add handling for localizedStringForKey:
-* Context awareness / AST awareness
+* Swift support.
+* Add mode to find only non-localized content, which is not present in localizable.strings yet. 
+* Add handling for ```localizedStringForKey:```.
+* Context awareness / Abstract Syntactic Tree awareness
 * Multi-line strings.
-* Do not include unit tests in search.
+* Exclude unit tests from search.
