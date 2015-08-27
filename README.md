@@ -1,7 +1,8 @@
-<h5 align="center">
+<p align="center">
 <img src="owl.png" alt="OwlLocalizer: Smart Localization Tool for iOS Developers" />
-<font color="gray">source: <a href="https://upload.wikimedia.org/wikipedia/commons/4/4d/Tetradrachm_Athens_450_reverse_CdM_Paris-transparent.png">wikimedia</a></font>
-</h5>
+<br><font color="gray" size="-3">source: <a href="https://upload.wikimedia.org/wikipedia/commons/4/4d/Tetradrachm_Athens_450_reverse_CdM_Paris-transparent.png">wikimedia</a></font>
+</p>
+
 
 
 OwlLocalizer: Smart Localization Tool for iOS Developers
