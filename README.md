@@ -29,6 +29,19 @@ Application allows you to search for strings that may need localisation in iOS p
 
 >To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
 
+## NLTK installation
+If you got an error
+```
+Unexpected error:(<class 'LookupError'>, LookupError("\n**********************************************************************\n  Resource 'tokenizers/punkt/PY3/english.pickle' not found.\n  Please use the NLTK Downloader to obtain the resource:  >>>\n  nltk.download()\n  Searched in:\n    - '/Users/gigaset/nltk_data'\n    - '/usr/share/nltk_data'\n    - '/usr/local/share/nltk_data'\n    - '/usr/lib/nltk_data'\n    - '/usr/local/lib/nltk_data'\n    - ''\n**********************************************************************",), <traceback object at 0x1084fc408>)
+
+```
+you probably don't have some NLTK packages installed. Script will try to start NLTK package downloader. Do following:
+* Go to 'Corpora' tab and select 'wordnet' from under the 'Identifier' column (WordNet).
+* Click Download and it will install the necessary files.
+* Go to the 'Models' tab and select 'punkt' from under the 'Identifier' column.
+* Then click Download and it will install the necessary files.
+* Restart script. 
+
 ## Version
 0.0.2
 
