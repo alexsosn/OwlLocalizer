@@ -1,11 +1,17 @@
+<p><center>
+<img src="owl.png">
+<br><font size="-3" color="gray">source: <a href="https://upload.wikimedia.org/wikipedia/commons/4/4d/Tetradrachm_Athens_450_reverse_CdM_Paris-transparent.png">wikimedia</a></font>
+</center></p>
+
 
 OwlLocalizer
 ============
 
 Application allows you to search for strings that may need localisation in iOS project. Uses natural language processing and heuristics to exclude urls, dates, autolayouts, predicates etc. Have several modes of search and allows to find strings in code sources, plists and UI files (.xib, .storyboards).
 
-## Ultimate goal of project
-> Find all strings in iOS project, which requires localization regardless of whether they are marked using NSLocalizedString(...) or not.
+## The goal of the project
+* **Unrealistic goal:** Find all strings in iOS project, which requires localization regardless of the place in the project.
+* **More realistic:** Suggest strings, which may require localization.
 
 ## Usage
 
