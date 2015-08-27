@@ -1,13 +1,13 @@
-<p><center>
-<img src="owl.png">
+<h3 align="center">
+<img src="owl.png" alt="OwlLocalizer: Smart Localization Tool for iOS Developers" />
 <br><font size="-3" color="gray">source: <a href="https://upload.wikimedia.org/wikipedia/commons/4/4d/Tetradrachm_Athens_450_reverse_CdM_Paris-transparent.png">wikimedia</a></font>
-</center></p>
+</h3>
 
 
-OwlLocalizer
+OwlLocalizer: Smart Localization Tool for iOS Developers
 ============
 
-Application allows you to search for strings that may need localisation in iOS project. Uses natural language processing and heuristics to exclude urls, dates, autolayouts, predicates etc. Have several modes of search and allows to find strings in code sources, plists and UI files (.xib, .storyboards).
+The tool allows you to search for strings that may need localisation in iOS project. Uses natural language processing and heuristics to exclude urls, dates, autolayouts, predicates etc. It has several modes of search and allows to find strings in code sources (Objective-C, Objective-C++, Swift), plists and UI files (.xib, .storyboards).
 
 ## The goal of the project
 * **Unrealistic goal:** Find all strings in iOS project, which requires localization regardless of the place in the project.
@@ -33,7 +33,7 @@ Application allows you to search for strings that may need localisation in iOS p
 >
 >> python loc_finder.py -i my-ios-project-folder -o localizable.strings -s
 
->To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
+> To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
 
 ## NLTK dependencies installation
 
