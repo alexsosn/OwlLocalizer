@@ -7,6 +7,10 @@
 OwlLocalizer: Smart Localization Tool for iOS Developers
 ============
 
+## The problem
+You need to add localization support to the iOS project which was developed with assumption that only english-speaking users will use it. Or even worse - someone started implementing localization and gave up halfway.
+
+## Solution
 The tool allows you to search for strings that *may need* localisation in iOS project. Uses natural language processing and heuristics to exclude urls, dates, autolayouts, predicates etc. It has several modes of search and allows to find strings in code sources, plists and UI files.
 
 ## The goal of the project
@@ -18,7 +22,8 @@ The tool allows you to search for strings that *may need* localisation in iOS pr
 - [x] .xib, .storyboards support.
 - [x] parses .plist and .string files.
 - [x] excludes CocoaPods, .git and Build folders from search.
-- [x] 'AI' mode: looks for all strings which are similar to natural language.
+- [x] 'Heuristic mode': looks for predefined patterns like names of UI elements in storyboards or ```NSLocalizedString()``` in objective-c sources. 
+- [x] 'AI mode': looks for all strings which are similar to natural language.
 - [x] Output formats:
     - [x] plain text lists of suspicious strings
     - [x] CSV table
