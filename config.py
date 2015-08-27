@@ -1,78 +1,80 @@
 
 class Config:
-    evristics = {  
-      '.m':[  
-         'Loc *\( *@\"(.*?)\" *\)',
-         'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
-         'setTitle: *@\"(.*?)\"',
-         '.title *= *@\"(.*?)\"',
-         'alertMessage:@\"(.*?)\"'
-      ],
-      '.mm':[  
-         'Loc *\( *@\"(.*?)\" *\)',
-         'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
-         'setTitle: *@\"(.*?)\"',
-         '.title *= *@\"(.*?)\"',
-         'alertMessage:@\"(.*?)\"'
-      ],
-      '.swift':[
-          'NSLocalizedString\(\"(.*?)\",'
-      ],
-      '.xib':[  
-         ' title=\"(.*?)\".*/>'
-      ],
-      '.storyboard':[  
-         ' title=\"(.*?)\".*/>'
-      ],
-      '.strings':[  
-         '\".*?\" *= *\"(.*?)\";'
-      ],
-      '.plist':[]
-   }
+    evristics = {
+        '.m':[
+            'Loc *\( *@\"(.*?)\" *\)',
+            'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
+            'setTitle: *@\"(.*?)\"',
+            '.title *= *@\"(.*?)\"',
+            'alertMessage:@\"(.*?)\"'
+        ],
+        '.mm':[
+            'Loc *\( *@\"(.*?)\" *\)',
+            'NSLocalizedString *\( *@\"(.*?)\" *, *.*\)',
+            'setTitle: *@\"(.*?)\"',
+            '.title *= *@\"(.*?)\"',
+            'alertMessage:@\"(.*?)\"'
+        ],
+        '.swift':[
+            'NSLocalizedString\(\"(.*?)\",'
+        ],
+        '.xib':[
+            ' title=\"(.*?)\".*/>'
+        ],
+        '.storyboard':[
+            ' title=\"(.*?)\".*/>'
+        ],
+        '.strings':[
+            # '\".*?\" *= *\"(.*?)\";'
+        ],
+        '.plist':[]
+    }
     strings_patterns = {
-      '.m':[  
-         '@\"(.*?)\"'
-      ],
-      '.mm':[  
-         '@\"(.*?)\"'
-      ],
-      '.swift':[
-          '\"(.*?)\"'
-      ],
-      '.xib':[  
-         ' title=\"(.*?)\".*/>'
-      ],
-      '.storyboard':[  
-         ' title=\"(.*?)\".*/>'
-      ],
-      '.strings':[  
-         '\".*?\" *= *\"(.*?)\";'
-      ],
-      '.plist':[  
-         '<string>(.*?)</string>'
-      ]
-   }
+        '.m':[
+            '@\"(.*?)\"'
+        ],
+        '.mm':[
+            '@\"(.*?)\"'
+        ],
+        '.swift':[
+            '\"(.*?)\"'
+        ],
+        '.xib':[
+            ' title=\"(.*?)\".*/>'
+        ],
+        '.storyboard':[
+            ' title=\"(.*?)\".*/>'
+        ],
+        '.strings':[
+            # '\".*?\" *= *\"(.*?)\";'
+        ],
+        '.plist':[
+            '<string>(.*?)</string>'
+        ]
+    }
     excluded_patterns = [
-      '(H|V):\|.*?\[.*\].*?\|',
-      '^[0-9]+$',
-      '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$',
-      '!=',
-      '(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?',
-      '\(null\)',
-      '\[view\]',
-      '#subscriptions',
-      '%@',
-      '<=',
-      '==',
-      '>=',
-      'dd/MM',
-      'HH:mm',
-      'id',
-      'NetworkRequest not responds to selector parameters',
-      'V:\[',
-      'yyyy',
-      'ZZZ'
-   ]
+        '@\{ *NSLocalizedDescriptionKey *: *@\".*?\"\ *}',
+        # 'NSLocalizedString( *@\".*?\", *@\".*?\" *)'
+        '(H|V):\|.*?\[.*\].*?\|',
+        '^[0-9]+$',
+        '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$',
+        '!=',
+        '(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?',
+        '\(null\)',
+        '\[view\]',
+        '#subscriptions',
+        '%@',
+        '<=',
+        '==',
+        '>=',
+        'dd/MM',
+        'HH:mm',
+        'id',
+        'NetworkRequest not responds to selector parameters',
+        'V:\[',
+        'yyyy',
+        'ZZZ'
+    ]
     excluded_lines = [
         'NSAssert\(.*?\)',
         'NSLog\(.*?\)',
@@ -106,4 +108,7 @@ Not included with heuristics:
 [self alertMessage:@"An email will be sent to you shortly." withTitle:@"Reset password confirmation"];
 [NSPredicate predicateWithFormat:@"identifier == %@"
 
+
+setTitle:NSLocalizedString(@"cancel_btn_lbl", @"Label for Cancel button")
+NSLocalizedString(@"settings_profile_label", @"Compatibility profiles");
 '''

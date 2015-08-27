@@ -29,7 +29,8 @@ Application allows you to search for strings that may need localisation in iOS p
 
 >To add your own regular expressions or folders to ignore or change settings of file formats see config.py.
 
-## NLTK installation
+## NLTK dependencies installation
+
 If you got an error
 
 ```bash
@@ -51,11 +52,18 @@ you probably don't have some NLTK packages installed. Script will try to start *
 * NLTK
 * Pandas 0.16.0
 
+## Known bugs
+
+* No support for multi-line strings.
+* Escaped symbols can be escaped twice (``` \n -> \\n ```). 
+
 ## Todo
 
 * Swift support.
 * Add mode to find only non-localized content, which is not present in localizable.strings yet. 
 * Add handling for ```localizedStringForKey:```.
-* Context awareness / Abstract Syntactic Tree awareness
+* Context awareness / Abstract Syntactic Tree awareness.
+* Add mode to exclude NSErrors.
+* Add mode with context included.
 * Multi-line strings.
 * Exclude unit tests from search.
