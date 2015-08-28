@@ -25,7 +25,7 @@ class Config:
             ' title=\"(.*?)\".*/>'
         ],
         '.strings':[
-            # '\".*?\" *= *\"(.*?)\";'
+            '\".*?\" *= *\"(.*?)\";'
         ],
         '.plist':[]
     }
@@ -46,7 +46,7 @@ class Config:
             ' title=\"(.*?)\".*/>'
         ],
         '.strings':[
-            # '\".*?\" *= *\"(.*?)\";'
+            '\".*?\" *= *\"(.*?)\";'
         ],
         '.plist':[
             '<string>(.*?)</string>'
@@ -73,7 +73,10 @@ class Config:
         'NetworkRequest not responds to selector parameters',
         'V:\[',
         'yyyy',
-        'ZZZ'
+        'ZZZ',
+        ' ',
+        '_',
+        '=+'
     ]
     excluded_lines = [
         'NSAssert\(.*?\)',
