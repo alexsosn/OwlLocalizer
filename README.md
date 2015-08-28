@@ -77,6 +77,11 @@ you probably don't have some [NLTK] packages installed. Script will try to start
 * [NLTK]
 * [Pandas] 0.16.0
 
+You can install packages using [pip](https://pip.pypa.io/en/stable/index.html):
+```
+    sudo pip install <package name>
+```
+
 ## Known bugs
 
 * [ ] No support for multi-line strings.
@@ -90,6 +95,8 @@ you probably don't have some [NLTK] packages installed. Script will try to start
 * [ ] Add mode to exclude NSErrors.
 * [ ] Add mode with context included.
 * [ ] Exclude unit tests from search by default.
+* [ ] Add Google Spreadsheets support: (gspread)[https://github.com/burnash/gspread]
+* [ ] (colorama)[https://pypi.python.org/pypi/colorama]
 
 [NLTK]: http://www.nltk.org/
 [Python 3.4]: https://www.python.org/download/releases/3.4.0/
